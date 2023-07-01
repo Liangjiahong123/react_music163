@@ -1,9 +1,14 @@
-import { memo } from 'react'
+import React, { memo } from 'react';
+import type { FC } from 'react';
+import { useRoutes } from 'react-router-dom';
+import routes from './router';
 
-const App = memo(() => {
+const App: FC = () => {
   return (
-    <div>App</div>
-  )
-})
+    <div>
+      <div className='info'>{useRoutes(routes)}</div>
+    </div>
+  );
+};
 
-export default App
+export default memo(App);

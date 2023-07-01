@@ -1,0 +1,73 @@
+/* css 样式统一 */
+html,
+body,
+ul,
+li,
+ol,
+dl,
+dd,
+dt,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+form,
+fieldset,
+legend,
+input,
+button,
+textarea,
+div,
+th,
+td {
+  margin: 0;
+  box-sizing: border-box;
+  padding: 0;
+}
+
+html {
+  overflow: -moz-scrollbars;
+  overflow-y: auto;
+  font-size: 14px;
+  line-height: 1;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+  font-weight: normal;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+img {
+  border: 0;
+  vertical-align: middle;
+}
+
+select,
+input {
+  border: none;
+  outline: 0;
+}
+
+textarea {
+  overflow: auto;
+  font: inherit;
+  resize: none;
+}
