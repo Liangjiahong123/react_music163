@@ -8,11 +8,12 @@ import './assets/css/reset.css';
 
 import store from './store';
 import App from './App';
+import Loading from './components/Loading';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
-  <React.Suspense fallback={<h2>Loading...</h2>}>
+  <React.Suspense fallback={<Loading />}>
     <HashRouter>
       <Provider store={store}>
         <App />
