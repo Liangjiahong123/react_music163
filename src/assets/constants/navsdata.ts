@@ -62,3 +62,5 @@ export const DISCOVER_NAVS = [
     title: '新碟上架'
   }
 ];
+
+export const RECOMMEND_NAVS = ['华语', '流行', '摇滚', '民谣', '电子'];
