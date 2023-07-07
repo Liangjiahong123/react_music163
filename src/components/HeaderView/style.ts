@@ -48,9 +48,7 @@ export const HeaderLeftWrap = styled.div`
         }
 
         &.active .icon {
-          position: absolute;
-          bottom: -2px;
-          left: 50%;
+          ${(props) => props.theme.pos('absolute', { l: '50%', b: '-2px' })}
           transform: translate(-50%, 0);
           display: inline-block;
           width: 12px;
@@ -64,8 +62,7 @@ export const HeaderLeftWrap = styled.div`
 `;
 
 export const HeaderRightWrap = styled.div`
-  display: flex;
-  align-items: center;
+  ${(props) => props.theme.flexRow('', 'center')}
 
   .search {
     width: 158px;

@@ -1,15 +1,23 @@
 import React, { memo } from 'react';
 import type { ReactNode, FC } from 'react';
 import { Link } from 'react-router-dom';
-import { HotRecommendWrap, HeaderLeft, HeaderRight, SongList } from './style';
+import { HotRecommendWrap, HeaderLeft, SongList } from './style';
 import { RECOMMEND_NAVS } from '@/assets/constants';
 import TitleBaseView from '@cpns/TitleBaseView';
+import SongItem from '@cpns/SongItem';
+import { appShallowEqual, useAppSelector } from '@/hooks';
 
 interface Iprops {
   children?: ReactNode;
 }
 
 const HotRecommend: FC<Iprops> = () => {
+  const { hotRecommends } = useAppSelector(
+    (state) => ({
+      hotRecommends: state.discover.hotRecommends
+    }),
+    appShallowEqual
+  );
   const leftSlot = (
     <HeaderLeft>
       {RECOMMEND_NAVS.map((item) => (
@@ -21,12 +29,12 @@ const HotRecommend: FC<Iprops> = () => {
   );
 
   const RightSlot = (
-    <HeaderRight>
+    <div className='title-right'>
       <Link to='/discover/playlist' className='more'>
         更多
       </Link>
       <i className='icon'></i>
-    </HeaderRight>
+    </div>
   );
 
   return (
@@ -39,7 +47,11 @@ const HotRecommend: FC<Iprops> = () => {
         leftSlot={leftSlot}
         RightSlot={RightSlot}
       />
-      <SongList></SongList>
+      <SongList>
+        {hotRecommends?.map((item) => (
+          <SongItem songItem={item} key={item.id} />
+        ))}
+      </SongList>
     </HotRecommendWrap>
   );
 };

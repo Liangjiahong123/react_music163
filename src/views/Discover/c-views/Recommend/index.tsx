@@ -4,7 +4,8 @@ import { RecommendWrap } from './style';
 import { useAppDispatch } from '@/hooks';
 import { fetchDiscoverData } from '@/store/modules/discover';
 import NavBanners from './components/NavBanners';
-import HotRecommendWrap from './components/HotRecommend';
+import HotRecommend from './components/HotRecommend';
+import DiscRelease from './components/DiscRelease';
 
 interface Iprops {
   children?: ReactNode;
@@ -21,7 +22,8 @@ const Recommend: FC<Iprops> = () => {
       <NavBanners />
       <div className='recommend-content'>
         <div className='left'>
-          <HotRecommendWrap />
+          <HotRecommend />
+          <DiscRelease />
         </div>
         <div className='right'></div>
       </div>

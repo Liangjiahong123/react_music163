@@ -22,28 +22,9 @@ export const HeaderLeft = styled.div`
   }
 `;
 
-export const HeaderRight = styled.div`
-  .more {
-    display: inline-block;
-    padding-bottom: 4px;
-    color: #666;
-    font-size: 12px;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  .icon {
-    display: inline-block;
-    width: 12px;
-    height: 12px;
-    margin-left: 4px;
-    vertical-align: middle;
-    ${(props) => props.theme.bg('0 -240px', 'index.png')}
-  }
-`;
-
 export const SongList = styled.div`
+  display: flex;
+  flex-wrap: wrap;
   margin-top: 20px;
+  margin-right: -40px;
 `;

@@ -5,5 +5,5 @@ export const getBannersInfo = (params = {}) => {
 };
 
 export const getHotRecommendInfo = (params = {}) => {
-  return request.get({ url: '/banner', params });
+  return request.get({ url: '/personalized', params });
 };

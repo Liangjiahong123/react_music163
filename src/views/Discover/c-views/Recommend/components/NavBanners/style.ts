@@ -24,13 +24,11 @@ export const BannersLeft = styled.div`
     position: relative;
 
     .banner-item {
-      position: absolute;
-      left: 0;
-      top: 0;
       width: 100%;
       height: 285px;
       object-fit: cover;
       cursor: pointer;
+      ${(props) => props.theme.pos('absolute', { t: 0, l: 0 })}
     }
 
     .fade-enter {
@@ -53,9 +51,7 @@ export const BannersLeft = styled.div`
   }
 
   .dots {
-    position: absolute;
-    top: 259px;
-    left: 0;
+    ${(props) => props.theme.pos('absolute', { t: '259px', l: 0 })}
     width: 730px;
     height: 20px;
     text-align: center;
@@ -100,8 +96,7 @@ export const BannersRight = styled.div`
   &::before,
   &::after {
     content: '';
-    position: absolute;
-    top: 0;
+    ${(props) => props.theme.pos('absolute', { t: 0 })}
     width: 20px;
     height: 285px;
   }
@@ -119,8 +114,7 @@ export const BannersRight = styled.div`
 
 export const BannersControl = styled.div`
   .control {
-    position: absolute;
-    top: 50%;
+    ${(props) => props.theme.pos('absolute', { t: '50%' })}
     margin-top: -31px;
     width: 37px;
     height: 63px;
