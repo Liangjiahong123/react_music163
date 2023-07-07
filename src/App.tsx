@@ -7,9 +7,11 @@ import FooterView from '@cpns/FooterView';
 
 const App: FC = () => {
   return (
-    <div>
+    <div className='app-container'>
       <HeaderView />
-      <div className='content'>{useRoutes(routes)}</div>
+      <React.Suspense fallback=''>
+        <div className='content'>{useRoutes(routes)}</div>
+      </React.Suspense>
       <FooterView />
     </div>
   );

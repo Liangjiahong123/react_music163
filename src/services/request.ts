@@ -6,15 +6,9 @@ interface IRequestConfig extends AxiosRequestConfig {
   showLoading?: boolean;
 }
 
-interface IResponseData<T> {
-  data: T;
-  code: number;
-  message: string;
-}
-
 class Request {
   instance: AxiosInstance;
-  showLoading: boolean;
+  showLoading?: boolean;
 
   constructor(baseURL: string, timeout: number) {
     this.instance = axios.create({
@@ -35,7 +29,7 @@ class Request {
         this.showLoading && showLoading();
         return config;
       },
-      (err: any) => {
+      (err) => {
         this.showLoading && hideLoading();
         console.error('网络请求出错', err);
         return err;
@@ -49,7 +43,7 @@ class Request {
         if (code === 401) {
           return Promise.reject(response.data);
         }
-        return response;
+        return response.data;
       },
       (err: any) => {
         this.showLoading && hideLoading();
@@ -59,12 +53,12 @@ class Request {
     );
   }
 
-  request<T = any>(config: IRequestConfig): Promise<T> {
-    return new Promise((resolve, reject) => {
+  request<T = any>(config: IRequestConfig) {
+    return new Promise<T>((resolve, reject) => {
       this.instance
-        .request<any, IResponseData<T>>(config)
+        .request<any, T>(config)
         .then((res) => {
-          resolve(res.data);
+          resolve(res);
         })
         .catch((err) => {
           console.log('request err:', err);
@@ -73,18 +67,18 @@ class Request {
     });
   }
 
-  get<T = any>(config: IRequestConfig): Promise<IResponseData<T>> {
+  get<T = any>(config: IRequestConfig): Promise<T> {
     return this.request({ ...config, method: 'get' });
   }
 
-  post<T = any>(config: IRequestConfig): Promise<IResponseData<T>> {
+  post<T = any>(config: IRequestConfig): Promise<T> {
     return this.request({
       ...config,
       method: 'post'
     });
   }
 
-  postJson<T = any>(config: IRequestConfig): Promise<IResponseData<T>> {
+  postJson<T = any>(config: IRequestConfig): Promise<T> {
     return this.request({
       ...config,
       method: 'post',
