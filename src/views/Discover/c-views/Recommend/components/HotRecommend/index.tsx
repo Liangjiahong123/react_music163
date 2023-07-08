@@ -14,7 +14,7 @@ interface Iprops {
 const HotRecommend: FC<Iprops> = () => {
   const { hotRecommends } = useAppSelector(
     (state) => ({
-      hotRecommends: state.discover.hotRecommends
+      hotRecommends: state.recommend.hotRecommends
     }),
     appShallowEqual
   );
@@ -28,15 +28,6 @@ const HotRecommend: FC<Iprops> = () => {
     </HeaderLeft>
   );
 
-  const RightSlot = (
-    <div className='title-right'>
-      <Link to='/discover/playlist' className='more'>
-        更多
-      </Link>
-      <i className='icon'></i>
-    </div>
-  );
-
   return (
     <HotRecommendWrap>
       <TitleBaseView
@@ -45,7 +36,6 @@ const HotRecommend: FC<Iprops> = () => {
         toPath='/discover/playlist'
         showIcon
         leftSlot={leftSlot}
-        RightSlot={RightSlot}
       />
       <SongList>
         {hotRecommends?.map((item) => (

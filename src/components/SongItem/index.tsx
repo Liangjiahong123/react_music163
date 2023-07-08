@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import type { ReactNode, FC } from 'react';
 import { Link } from 'react-router-dom';
 import { SongItemWrap, BottomWrap } from './style';
-import { formatPlayCount } from '@/utils';
+import { formatPlayCount, formatImgSize } from '@/utils';
 
 interface Iprops {
   children?: ReactNode;
@@ -15,7 +15,8 @@ const SongItem: FC<Iprops> = (props) => {
     <SongItemWrap>
       <div className='cover'>
         <Link to={`/playlist?id=${songItem.id}`}>
-          <img src={songItem.picUrl + '?param=140y140'} />
+          <img src={formatImgSize(songItem.picUrl, 140)} />
+          <div className='mask'></div>
         </Link>
         <BottomWrap>
           <div className='bottom-left'>

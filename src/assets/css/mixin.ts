@@ -24,7 +24,17 @@ const mixin: DefaultTheme = {
       top: ${direction.t};
       bottom: ${direction.b};
     `;
-  }
+  },
+  tEllipsis(line = 1) {
+    return `
+      display: -webkit-box;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-line-clamp: ${line};
+      -webkit-box-orient: vertical;
+    `;
+  },
+  hoverUdLine: '&:hover { text-decoration: underline; }'
 };
 
 export default mixin;

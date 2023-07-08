@@ -21,7 +21,7 @@ const TitleBaseView: FC<Iprops> = (props) => {
 
   const { showIcon, isLink, title, toPath = '', leftSlot, RightSlot } = props;
 
-  const showTitle = () => {
+  const showLeftTitle = () => {
     if (isLink)
       return (
         <Link to={toPath} className='text'>
@@ -30,13 +30,26 @@ const TitleBaseView: FC<Iprops> = (props) => {
       );
     return <h3 className='text'>{title}</h3>;
   };
+
+  const showRightContent = () => {
+    if (RightSlot) return RightSlot;
+    return (
+      <div className='title-right'>
+        <Link to={toPath} className='more'>
+          更多
+        </Link>
+        <i className='icon'></i>
+      </div>
+    );
+  };
+
   return (
     <TitleBaseWrap style={showIcon ? iconStyle : {}}>
       <div className='title-left'>
-        {showTitle()}
+        {showLeftTitle()}
         {leftSlot}
       </div>
-      {RightSlot}
+      {showRightContent()}
     </TitleBaseWrap>
   );
 };
