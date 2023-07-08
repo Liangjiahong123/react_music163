@@ -16,7 +16,7 @@ const NavBanners: FC<Iprops> = () => {
   /* 获取state数据*/
   const { banners } = useAppSelector(
     (state) => ({
-      banners: state.discover.banners
+      banners: state.recommend.banners
     }),
     appShallowEqual
   );

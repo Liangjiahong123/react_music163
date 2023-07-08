@@ -2,10 +2,11 @@ import React, { memo, useEffect } from 'react';
 import type { ReactNode, FC } from 'react';
 import { RecommendWrap } from './style';
 import { useAppDispatch } from '@/hooks';
-import { fetchDiscoverData } from '@/store/modules/discover';
+import { fetchRecommendData } from '@/store/modules/discover/recommend';
 import NavBanners from './components/NavBanners';
 import HotRecommend from './components/HotRecommend';
 import DiscRelease from './components/DiscRelease';
+import SongRanking from './components/SongRanking';
 
 interface Iprops {
   children?: ReactNode;
@@ -14,7 +15,7 @@ interface Iprops {
 const Recommend: FC<Iprops> = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(fetchDiscoverData());
+    dispatch(fetchRecommendData());
   }, []);
 
   return (
@@ -24,6 +25,7 @@ const Recommend: FC<Iprops> = () => {
         <div className='left'>
           <HotRecommend />
           <DiscRelease />
+          <SongRanking />
         </div>
         <div className='right'></div>
       </div>

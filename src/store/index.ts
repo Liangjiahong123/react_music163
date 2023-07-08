@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import discoverReducer from './modules/discover';
+import recommendReducer from './modules/discover/recommend';
 
 const store = configureStore({
   reducer: {
-    discover: discoverReducer
+    recommend: recommendReducer
   }
 });
 

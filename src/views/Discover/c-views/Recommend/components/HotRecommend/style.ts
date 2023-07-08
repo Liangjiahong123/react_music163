@@ -8,9 +8,7 @@ export const HeaderLeft = styled.div`
     font-size: 12px;
     color: #666;
 
-    &:hover {
-      text-decoration: underline;
-    }
+    ${(props) => props.theme.hoverUdLine}
 
     &:not(:last-child)::after {
       content: '|';

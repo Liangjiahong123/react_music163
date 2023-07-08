@@ -13,5 +13,7 @@ declare module 'styled-components' {
     bg(p: string, n: string, s?: string): string;
     flexRow(jc: string, al: string): string;
     pos(type: string, direction: Direction): string;
+    tEllipsis(line?: number): string;
+    hoverUdLine: string;
   }
 }

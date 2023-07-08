@@ -17,6 +17,13 @@ export const SongItemWrap = styled.div`
       height: 100%;
       object-fit: cover;
     }
+
+    .mask {
+      width: 100%;
+      height: 100%;
+      ${(props) => props.theme.pos('absolute', { t: 0, l: 0 })}
+      ${(props) => props.theme.bg('0 0', 'coverall.png')}
+    }
   }
 
   .dec {
@@ -26,10 +33,7 @@ export const SongItemWrap = styled.div`
     color: #000;
     white-space: break-spaces;
     word-break: break-all;
-
-    &:hover {
-      text-decoration: underline;
-    }
+    ${(props) => props.theme.hoverUdLine}
   }
 `;
 
