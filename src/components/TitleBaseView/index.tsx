@@ -5,11 +5,12 @@ import { TitleBaseWrap } from './style';
 
 interface Iprops {
   leftSlot?: ReactNode;
-  RightSlot?: ReactNode;
+  rightSlot?: ReactNode;
   showIcon?: boolean;
   title?: string;
   isLink?: boolean;
   toPath?: string;
+  className?: string;
 }
 
 const TitleBaseView: FC<Iprops> = (props) => {
@@ -19,7 +20,7 @@ const TitleBaseView: FC<Iprops> = (props) => {
     backgroundImage: `url(${require('@/assets/img/index.png')})`
   };
 
-  const { showIcon, isLink, title, toPath = '', leftSlot, RightSlot } = props;
+  const { showIcon, isLink, title, toPath = '', leftSlot, rightSlot, className } = props;
 
   const showLeftTitle = () => {
     if (isLink)
@@ -32,7 +33,7 @@ const TitleBaseView: FC<Iprops> = (props) => {
   };
 
   const showRightContent = () => {
-    if (RightSlot) return RightSlot;
+    if (rightSlot) return rightSlot;
     return (
       <div className='title-right'>
         <Link to={toPath} className='more'>
@@ -44,7 +45,7 @@ const TitleBaseView: FC<Iprops> = (props) => {
   };
 
   return (
-    <TitleBaseWrap style={showIcon ? iconStyle : {}}>
+    <TitleBaseWrap className={className} style={showIcon ? iconStyle : {}}>
       <div className='title-left'>
         {showLeftTitle()}
         {leftSlot}

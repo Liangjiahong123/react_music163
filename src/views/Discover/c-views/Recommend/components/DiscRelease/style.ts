@@ -15,22 +15,23 @@ export const AlbumRoller = styled.div`
     height: 17px;
     cursor: pointer;
     ${(props) => props.theme.pos('absolute', { t: '71px' })}
+    ${(props) => props.theme.bg('0 -9999px', 'index.png')}
 
     &.prev {
       left: 4px;
-      ${(props) => props.theme.bg('-260px -75px', 'index.png')}
+      background-position: -260px -75px;
 
       &:hover {
-        ${(props) => props.theme.bg('-280px -75px', 'index.png')}
+        background-position: -280px -75px;
       }
     }
 
     &.next {
       right: 4px;
-      ${(props) => props.theme.bg('-300px -75px', 'index.png')}
+      background-position: -300px -75px;
 
       &:hover {
-        ${(props) => props.theme.bg('-320px -75px', 'index.png')}
+        background-position: -320px -75px;
       }
     }
   }

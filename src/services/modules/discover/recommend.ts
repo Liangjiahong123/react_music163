@@ -15,3 +15,7 @@ export const getNewAlbumInfo = (params = {}) => {
 export const getSongRankingInfo = (params: { id: number }) => {
   return request.get({ url: '/playlist/detail', params });
 };
+
+export const getArtistListInfo = (params = {}) => {
+  return request.get({ url: '/artist/list', params });
+};

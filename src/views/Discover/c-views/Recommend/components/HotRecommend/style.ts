@@ -5,7 +5,6 @@ export const HotRecommendWrap = styled.div``;
 export const HeaderLeft = styled.div`
   margin: 7px 0 0 20px;
   a {
-    font-size: 12px;
     color: #666;
 
     ${(props) => props.theme.hoverUdLine}

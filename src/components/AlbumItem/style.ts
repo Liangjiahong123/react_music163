@@ -44,7 +44,6 @@ export const AlbumItemWrap = styled.div`
   .author {
     width: 90%;
     line-height: 18px;
-    font-size: 12px;
     color: #000;
     ${(props) => props.theme.tEllipsis()}
     ${(props) => props.theme.hoverUdLine}

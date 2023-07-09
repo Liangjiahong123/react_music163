@@ -1,10 +1,8 @@
 import React, { memo } from 'react';
 import type { ReactNode, FC } from 'react';
-import { Link } from 'react-router-dom';
 import { SongRankingWrap, RankingList } from './style';
-import TitleBaseView from '@/components/TitleBaseView';
 import { appShallowEqual, useAppSelector } from '@/hooks';
-import classNames from 'classnames';
+import TitleBaseView from '@/components/TitleBaseView';
 import RankingItem from '../RankingItem';
 
 interface Iprops {

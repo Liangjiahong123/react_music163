@@ -46,7 +46,7 @@ const RankingItem: FC<Iprops> = (props) => {
         ))}
       </div>
       <div className='look-more'>
-        <Link to={`/discover/ranking?id=${rankingItem.id}`}>{'查看全部>'}</Link>
+        <Link to={`/discover/ranking?id=${rankingItem.id}`}>查看全部&gt;</Link>
       </div>
     </RankingItemWrap>
   );
