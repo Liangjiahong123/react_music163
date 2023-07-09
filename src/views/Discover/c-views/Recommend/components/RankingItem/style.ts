@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const RankingItemWrap = styled.div`
-  width: 230px;
+  width: 229px;
 
   .top {
     display: flex;
@@ -20,8 +20,11 @@ export const RankingItemWrap = styled.div`
     margin-right: 32px;
     text-align: right;
     line-height: 32px;
-    font-size: 12px;
     ${(props) => props.theme.hoverUdLine}
+  }
+
+  &:nth-child(2) {
+    width: 230px;
   }
 `;
 
@@ -65,20 +68,21 @@ export const TopInfo = styled.div`
       height: 22px;
       margin-right: 10px;
       cursor: pointer;
+      ${(props) => props.theme.bg('0 9999px', 'index.png')}
 
       &.play {
-        ${(props) => props.theme.bg('-267px -205px', 'index.png')}
+        background-position: -267px -205px;
 
         &:hover {
-          ${(props) => props.theme.bg('-267px -235px', 'index.png')}
+          background-position: -267px -235px;
         }
       }
 
       &.collect {
-        ${(props) => props.theme.bg('-300px -205px', 'index.png')}
+        background-position: -300px -205px;
 
         &:hover {
-          ${(props) => props.theme.bg('-300px -235px', 'index.png')}
+          background-position: -300px -235px;
         }
       }
     }
@@ -105,7 +109,6 @@ export const BottomItem = styled.div`
   .name {
     width: 170px;
     height: 32px;
-    font-size: 12px;
     ${(props) => props.theme.tEllipsis()}
     ${(props) => props.theme.hoverUdLine}
   }
@@ -119,16 +122,17 @@ export const BottomItem = styled.div`
       width: 17px;
       height: 17px;
       cursor: pointer;
+      ${(props) => props.theme.bg('0 9999px', 'index.png')}
 
       &:not(:last-child) {
         margin-right: 10px;
       }
 
       &.play {
-        ${(props) => props.theme.bg('-267px -268px', 'index.png')}
+        background-position: -267px -268px;
 
         &:hover {
-          ${(props) => props.theme.bg('-267px -288px', 'index.png')}
+          background-position: -267px -288px;
         }
       }
 
@@ -138,15 +142,15 @@ export const BottomItem = styled.div`
         ${(props) => props.theme.bg('0 -700px', 'icon.png')}
 
         &:hover {
-          ${(props) => props.theme.bg('-22px -700px', 'icon.png')}
+          background-position: -22px -700px;
         }
       }
 
       &.collect {
-        ${(props) => props.theme.bg('-297px -268px', 'index.png')}
+        background-position: -297px -268px;
 
         &:hover {
-          ${(props) => props.theme.bg('-297px -288px', 'index.png')}
+          background-position: -297px -288px;
         }
       }
     }

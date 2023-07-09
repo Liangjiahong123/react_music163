@@ -17,7 +17,6 @@ export const NavBarWrap = styled.div`
       height: 20px;
       line-height: 20px;
       color: #fff;
-      font-size: 12px;
 
       &.active {
         background: #9b0909;

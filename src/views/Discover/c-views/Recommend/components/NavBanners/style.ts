@@ -51,10 +51,10 @@ export const BannersLeft = styled.div`
   }
 
   .dots {
-    ${(props) => props.theme.pos('absolute', { t: '259px', l: 0 })}
     width: 730px;
     height: 20px;
     text-align: center;
+    ${(props) => props.theme.pos('absolute', { t: '259px', l: 0 })}
     .item {
       display: inline-block;
       width: 20px;
@@ -63,7 +63,7 @@ export const BannersLeft = styled.div`
       ${(props) => props.theme.bg('3px -343px', 'banner.png')}
 
       &:hover, &.active {
-        ${(props) => props.theme.bg('-16px -343px', 'banner.png')}
+        background-position: -16px -343px;
       }
     }
   }
@@ -90,51 +90,51 @@ export const BannersRight = styled.div`
     margin: 10px auto;
     text-align: center;
     color: #8d8d8d;
-    font-size: 12px;
   }
 
   &::before,
   &::after {
     content: '';
-    ${(props) => props.theme.pos('absolute', { t: 0 })}
     width: 20px;
     height: 285px;
+    ${(props) => props.theme.pos('absolute', { t: 0 })}
+    ${(props) => props.theme.bg('0 9999px', 'banner.png')}
   }
 
   &::before {
     left: -20px;
-    ${(props) => props.theme.bg('-1px 0', 'banner.png')}
+    background-position: -1px 0;
   }
 
   &::after {
     right: -20px;
-    ${(props) => props.theme.bg('-20px 0', 'banner.png')}
+    background-position: -20px 0;
   }
 `;
 
 export const BannersControl = styled.div`
   .control {
-    ${(props) => props.theme.pos('absolute', { t: '50%' })}
     margin-top: -31px;
     width: 37px;
     height: 63px;
     cursor: pointer;
-
+    ${(props) => props.theme.pos('absolute', { t: '50%' })}
+    ${(props) => props.theme.bg('0 9999px', 'banner.png')}
     &.left {
       left: -68px;
-      ${(props) => props.theme.bg('0 -360px', 'banner.png')}
+      background-position: 0 -360px;
 
       &:hover {
-        ${(props) => props.theme.bg('0 -430px', 'banner.png')}
+        background-position: 0 -430px;
       }
     }
 
     &.right {
       right: -68px;
-      ${(props) => props.theme.bg('0 -508px', 'banner.png')}
+      background-position: 0 -508px;
 
       &:hover {
-        ${(props) => props.theme.bg('0 -578px', 'banner.png')}
+        background-position: 0 -578px;
       }
     }
   }

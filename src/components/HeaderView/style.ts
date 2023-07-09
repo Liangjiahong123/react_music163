@@ -21,12 +21,13 @@ export const HeaderWrap = styled.div`
 
 export const HeaderLeftWrap = styled.div`
   display: flex;
+  ${(props) => props.theme.bg('0 9999px', 'topbar.png')};
   .logo {
     display: block;
     width: 176px;
     height: 70px;
     text-indent: -9999px;
-    ${(props) => props.theme.bg('0 0', 'topbar.png')};
+    background-position: 0 0;
   }
 
   .nav-list {
@@ -48,13 +49,12 @@ export const HeaderLeftWrap = styled.div`
         }
 
         &.active .icon {
-          ${(props) => props.theme.pos('absolute', { l: '50%', b: '-2px' })}
           transform: translate(-50%, 0);
           display: inline-block;
           width: 12px;
           height: 7px;
-
-          ${(props) => props.theme.bg('-226px 0', 'topbar.png')};
+          ${(props) => props.theme.pos('absolute', { l: '50%', b: '-2px' })}
+          background-position: -226px 0;
         }
       }
     }
@@ -71,7 +71,6 @@ export const HeaderRightWrap = styled.div`
     border-radius: 16px;
 
     .ant-input:placeholder-shown {
-      font-size: 12px;
       line-height: 1;
     }
   }
@@ -86,7 +85,6 @@ export const HeaderRightWrap = styled.div`
     color: #ccc;
     border-radius: 20px;
     margin: 0 20px;
-    font-size: 12px;
     cursor: pointer;
   }
 
@@ -94,7 +92,6 @@ export const HeaderRightWrap = styled.div`
     display: block;
     width: 28px;
     color: #787878;
-    font-size: 12px;
     cursor: pointer;
     &:hover {
       text-decoration: underline;

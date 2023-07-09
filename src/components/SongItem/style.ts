@@ -61,7 +61,6 @@ export const BottomWrap = styled.div`
   }
 
   .count {
-    font-size: 12px;
     margin-left: 5px;
   }
 `;

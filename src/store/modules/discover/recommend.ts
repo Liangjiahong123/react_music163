@@ -3,7 +3,8 @@ import {
   getBannersInfo,
   getHotRecommendInfo,
   getNewAlbumInfo,
-  getSongRankingInfo
+  getSongRankingInfo,
+  getArtistListInfo
 } from '@/services';
 
 interface InitState {
@@ -11,24 +12,32 @@ interface InitState {
   hotRecommends: any[];
   newAlbums: any[];
   rankings: any[];
+  artistList: any[];
 }
 
 const initialState: InitState = {
   banners: [],
   hotRecommends: [],
   newAlbums: [],
-  rankings: []
+  rankings: [],
+  artistList: []
 };
 
 export const fetchRecommendData = createAsyncThunk('fetchdiscover', (extraInfo, { dispatch }) => {
   getBannersInfo().then((res) => {
     res.code === 200 && dispatch(changeBannersAction(res.banners));
   });
+
   getHotRecommendInfo({ limit: 8 }).then((res) => {
     res.code === 200 && dispatch(changeHotRecommendsAction(res.result));
   });
+
   getNewAlbumInfo().then((res) => {
     res.code === 200 && dispatch(changeNewAlbumsAction(res.albums));
+  });
+
+  getArtistListInfo({ limit: 5 }).then((res) => {
+    res.code === 200 && dispatch(changeArtistListAction(res.artists));
   });
 
   const promises = [19723756, 3779629, 2884035].map((id) => getSongRankingInfo({ id }));
@@ -53,6 +62,9 @@ const recommendSlice = createSlice({
     },
     changeRankingsAction(state, { payload }: PayloadAction<any[]>) {
       state.rankings = payload;
+    },
+    changeArtistListAction(state, { payload }: PayloadAction<any[]>) {
+      state.artistList = payload;
     }
   }
 });
@@ -61,6 +73,7 @@ export const {
   changeBannersAction,
   changeHotRecommendsAction,
   changeNewAlbumsAction,
-  changeRankingsAction
+  changeRankingsAction,
+  changeArtistListAction
 } = recommendSlice.actions;
 export default recommendSlice.reducer;

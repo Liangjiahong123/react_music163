@@ -16,4 +16,25 @@ export const TitleBaseWrap = styled.div`
       line-height: 28px;
     }
   }
+
+  .title-right {
+    .more {
+      display: inline-block;
+      padding-bottom: 4px;
+      color: #666;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .icon {
+      display: inline-block;
+      width: 12px;
+      height: 12px;
+      margin-left: 4px;
+      vertical-align: middle;
+      ${(props) => props.theme.bg('0 -240px', 'index.png')}
+    }
+  }
 `;

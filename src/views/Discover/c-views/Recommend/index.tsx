@@ -7,6 +7,9 @@ import NavBanners from './components/NavBanners';
 import HotRecommend from './components/HotRecommend';
 import DiscRelease from './components/DiscRelease';
 import SongRanking from './components/SongRanking';
+import UserLogin from './components/UserLogin';
+import ResidentArtist from './components/ResidentArtist';
+import HotDjRadio from './components/HotDjRadio';
 
 interface Iprops {
   children?: ReactNode;
@@ -27,7 +30,11 @@ const Recommend: FC<Iprops> = () => {
           <DiscRelease />
           <SongRanking />
         </div>
-        <div className='right'></div>
+        <div className='right'>
+          <UserLogin />
+          <ResidentArtist />
+          <HotDjRadio />
+        </div>
       </div>
     </RecommendWrap>
   );
