@@ -21,17 +21,18 @@ export const HeaderWrap = styled.div`
 
 export const HeaderLeftWrap = styled.div`
   display: flex;
-  ${(props) => props.theme.bg('0 9999px', 'topbar.png')};
+
   .logo {
     display: block;
     width: 176px;
     height: 70px;
     text-indent: -9999px;
-    background-position: 0 0;
+    ${(props) => props.theme.bg('0 0', 'topbar.png')};
   }
 
   .nav-list {
     display: flex;
+    font-size: 14px;
     .item {
       position: relative;
       a {
@@ -54,7 +55,7 @@ export const HeaderLeftWrap = styled.div`
           width: 12px;
           height: 7px;
           ${(props) => props.theme.pos('absolute', { l: '50%', b: '-2px' })}
-          background-position: -226px 0;
+          ${(props) => props.theme.bg('-226px 0', 'topbar.png')};
         }
       }
     }
