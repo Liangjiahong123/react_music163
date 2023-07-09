@@ -3,6 +3,7 @@ import type { ReactNode, FC } from 'react';
 import { Link } from 'react-router-dom';
 import { ResidentArtistWrap, ArtistList, LinkWrap } from './style';
 import { useAppSelector, appShallowEqual } from '@/hooks';
+import { RESIDENT_ARTIST } from '@/assets/constants';
 import TitleBaseWrap from '@cpns/TitleBaseView';
 import ArtistItem from '../ArtistItem';
 
@@ -28,7 +29,7 @@ const ResidentArtist: FC<Iprops> = () => {
     <ResidentArtistWrap>
       <TitleBaseWrap className='mini-title' title='入驻歌手' rightSlot={rightSlot} />
       <ArtistList>
-        {artistList?.map((item) => (
+        {RESIDENT_ARTIST?.map((item) => (
           <ArtistItem key={item.id} artistItem={item} />
         ))}
       </ArtistList>

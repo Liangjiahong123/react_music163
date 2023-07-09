@@ -14,10 +14,10 @@ const ArtistItem: FC<Iprops> = (props) => {
   return (
     <ArtistItemWrap>
       <Link to={`/artist?id=${artistItem.id}`}>
-        <img src={formatImgSize(artistItem.picUrl, 62)} />
+        <img src={formatImgSize(artistItem.avatar, 62)} />
         <div className='info'>
           <h4 className='name'>{artistItem.name}</h4>
-          <div className='desc'>{artistItem.alias.join(' ')}</div>
+          <div className='desc'>{artistItem.desc}</div>
         </div>
       </Link>
     </ArtistItemWrap>
