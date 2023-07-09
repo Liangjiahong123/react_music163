@@ -94,8 +94,6 @@ export const HeaderRightWrap = styled.div`
     width: 28px;
     color: #787878;
     cursor: pointer;
-    &:hover {
-      text-decoration: underline;
-    }
+    ${(props) => props.theme.hoverUdLine}
   }
 `;

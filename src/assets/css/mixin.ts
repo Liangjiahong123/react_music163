@@ -34,6 +34,17 @@ const mixin: DefaultTheme = {
       -webkit-box-orient: vertical;
     `;
   },
+  geneIcon(selector: string, p: string, hp: string) {
+    return `
+      ${selector}{
+        background-position: ${p};
+
+        &:hover {
+          background-position: ${hp};
+        }
+      }
+    `;
+  },
   hoverUdLine: '&:hover { text-decoration: underline; }'
 };
 

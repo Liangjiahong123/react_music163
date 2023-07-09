@@ -38,11 +38,11 @@ export const EnterList = styled.div`
       }
     }
 
-    ${geneIcon(2, '-5px -170px', '-60px -170px')}
-    ${geneIcon(3, '-5px -60px', '-60px -5px')}
-    ${geneIcon(5, '-60px -60px', '-115px -5px')}
-    ${geneIcon(6, '-115px -115px', '-5px -5px')}
-    ${geneIcon(8, '-170px -115px', '-60px -115px')}
+    ${(props) => props.theme.geneIcon('&:nth-child(2) > a', '-5px -170px', '-60px -170px')}
+    ${(props) => props.theme.geneIcon('&:nth-child(3) > a', '-5px -60px', '-60px -5px')}
+    ${(props) => props.theme.geneIcon('&:nth-child(5) > a', '-60px -60px', '-115px -5px')}
+    ${(props) => props.theme.geneIcon('&:nth-child(6) > a', '-115px -115px', '-5px -5px')}
+    ${(props) => props.theme.geneIcon('&:nth-child(8) > a', '-170px -115px', '-60px -115px')}
 
     &:nth-child(4) > a {
       ${(props) => props.theme.bg('center center', 'xStudio.png', '45px')}
@@ -115,15 +115,3 @@ export const CopyWrap = styled.div`
     }
   }
 `;
-
-function geneIcon(n: number, p: string, hp: string) {
-  return `
-    &:nth-child(${n}) > a {
-      background-position: ${p};
-
-      &:hover {
-        background-position: ${hp};
-      }
-    }
-  `;
-}
