@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import type { ReactNode, FC } from 'react';
 import { Outlet } from 'react-router-dom';
-import NavBar from './c-cpns/navBar';
+import NavBar from './c-cpns/NavBar';
 import ScrollTop from './c-cpns/ScrollTop';
 
 interface Iprops {

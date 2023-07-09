@@ -4,6 +4,7 @@ import { useRoutes } from 'react-router-dom';
 import routes from './router';
 import HeaderView from '@cpns/HeaderView';
 import FooterView from '@cpns/FooterView';
+import MusicPlayMenu from '@/views/Player/MusicPlayMenu';
 
 const App: FC = () => {
   return (
@@ -13,6 +14,7 @@ const App: FC = () => {
         <div className='content'>{useRoutes(routes)}</div>
       </React.Suspense>
       <FooterView />
+      <MusicPlayMenu />
     </div>
   );
 };
