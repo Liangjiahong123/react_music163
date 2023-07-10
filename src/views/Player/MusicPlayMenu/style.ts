@@ -137,11 +137,37 @@ export const SongContent = styled.div`
     ${(props) => props.theme.hoverUdLine}
   }
 
+  .mv {
+    margin-top: 3px;
+    margin-left: 6px;
+    width: 19px;
+    height: 17px;
+    ${(props) => props.theme.bg('0 -57px', 'playbar.png')};
+    &:hover {
+      background-position: -20px -57px;
+    }
+  }
+
   .artists {
     max-width: 220px;
     margin-left: 15px;
     color: #9b9b9b;
     ${(props) => props.theme.tEllipsis()}
+    .author {
+      ${(props) => props.theme.hoverUdLine}
+    }
+  }
+
+  .ranking-link {
+    display: block;
+    margin-left: 13px;
+    width: 14px;
+    height: 15px;
+    ${(props) => props.theme.bg('-110px -103px', 'playbar.png')};
+
+    &:hover {
+      background-position: -130px -103px;
+    }
   }
 `;
 

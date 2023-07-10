@@ -14,6 +14,7 @@ import {
 } from './style';
 import { appShallowEqual, useAppSelector } from '@/hooks';
 import { formatImgSize, getSongPlayUrl, formatTime } from '@/utils';
+import Playlist from '../PlayerList';
 
 interface Iprops {
   children?: ReactNode;
@@ -26,6 +27,7 @@ const MusicPlayMenu: FC<Iprops> = () => {
   const [duration, setDuration] = useState(0);
   const [curTime, setCurTime] = useState(0);
   const [isDrag, setIsDrag] = useState(false);
+  const [isShowList, setIsShowList] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   /** 获取state数据 */
@@ -38,18 +40,7 @@ const MusicPlayMenu: FC<Iprops> = () => {
 
   /** 副作用操作 */
   useEffect(() => {
-    if (!currentSong.id) return;
     audioRef.current!.src = getSongPlayUrl(currentSong.id);
-    // audioRef.current
-    //   ?.play()
-    //   .then(() => {
-    //     setIsPlaying(true);
-    //     console.log('播放成功');
-    //   })
-    //   .catch((err) => {
-    //     setIsPlaying(false);
-    //     console.log('播放失败', err);
-    //   });
     setDuration(currentSong.dt);
   }, [currentSong]);
 
@@ -101,10 +92,13 @@ const MusicPlayMenu: FC<Iprops> = () => {
     // 设置当前进度
     setProgress(value);
   };
+  // 控制显示播放列表
+  const handleShowPlayList = () => {
+    setIsShowList(!isShowList);
+  };
 
-  // 歌曲使用的头像
-  const songAvatar = currentSong.picUrl
-    ? formatImgSize(currentSong.picUrl, 34)
+  const songAvatar = currentSong.al?.picUrl
+    ? formatImgSize(currentSong.al.picUrl, 34)
     : `${require('@img/default_album.jpg')}`;
 
   return (
@@ -124,10 +118,23 @@ const MusicPlayMenu: FC<Iprops> = () => {
             <div className='player'>
               <div className='info'>
                 <SongContent>
-                  <span className='name'>{currentSong.name}</span>
+                  <Link to={`/song?id=${currentSong.id}`} className='name'>
+                    {currentSong.name}
+                  </Link>
+                  {currentSong.mv && <i className='mv'></i>}
                   <div className='artists'>
-                    <Link to={`/artist?id=123`}>{currentSong.name}</Link>
+                    {currentSong.ar?.map((item: any) => (
+                      <Link to={`/artist?id=${item.id}`} key={item.id} className='author'>
+                        {item.name}
+                      </Link>
+                    ))}
                   </div>
+                  {currentSong.id && (
+                    <Link
+                      className='ranking-link'
+                      to={`/discover/toplist?id=3779629&_hash=songlist-${currentSong.id}`}
+                    />
+                  )}
                 </SongContent>
                 <Process>
                   <Slider
@@ -155,7 +162,7 @@ const MusicPlayMenu: FC<Iprops> = () => {
             <div className='right'>
               <i className='ctrl volume' title='音量'></i>
               <i className='ctrl loop' title='循环'></i>
-              <div className='add' title='播放列表'>
+              <div className='add' title='播放列表' onClick={handleShowPlayList}>
                 <div className='tip'>已添加到播放列表</div>
                 <i className='list'>0</i>
               </div>
@@ -171,6 +178,7 @@ const MusicPlayMenu: FC<Iprops> = () => {
         </UpdownWrap>
       </div>
       <audio ref={audioRef} onTimeUpdate={handleTimeUpdate} />
+      {isShowList && <Playlist />}
     </MusicPlayMenuWrap>
   );
 };
