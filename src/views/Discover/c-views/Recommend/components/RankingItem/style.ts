@@ -69,22 +69,8 @@ export const TopInfo = styled.div`
       margin-right: 10px;
       cursor: pointer;
       ${(props) => props.theme.bg('0 9999px', 'index.png')}
-
-      &.play {
-        background-position: -267px -205px;
-
-        &:hover {
-          background-position: -267px -235px;
-        }
-      }
-
-      &.collect {
-        background-position: -300px -205px;
-
-        &:hover {
-          background-position: -300px -235px;
-        }
-      }
+      ${(props) => props.theme.geneIcon('&.play', '-267px -205px', '-267px -235px')}
+      ${(props) => props.theme.geneIcon('&.collec', '-300px -205px', '-300px -235px')}
     }
   }
 `;
@@ -128,13 +114,8 @@ export const BottomItem = styled.div`
         margin-right: 10px;
       }
 
-      &.play {
-        background-position: -267px -268px;
-
-        &:hover {
-          background-position: -267px -288px;
-        }
-      }
+      ${(props) => props.theme.geneIcon('&.play', '-267px -268px', '-267px -288px')}
+      ${(props) => props.theme.geneIcon('&.collect', '-297px -268px', '-297px -288px')}
 
       &.add {
         margin-top: 2px;
@@ -143,14 +124,6 @@ export const BottomItem = styled.div`
 
         &:hover {
           background-position: -22px -700px;
-        }
-      }
-
-      &.collect {
-        background-position: -297px -268px;
-
-        &:hover {
-          background-position: -297px -288px;
         }
       }
     }

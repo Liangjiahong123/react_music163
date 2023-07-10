@@ -120,22 +120,15 @@ export const BannersControl = styled.div`
     cursor: pointer;
     ${(props) => props.theme.pos('absolute', { t: '50%' })}
     ${(props) => props.theme.bg('0 9999px', 'banner.png')}
+
     &.left {
       left: -68px;
-      background-position: 0 -360px;
-
-      &:hover {
-        background-position: 0 -430px;
-      }
     }
+    ${(props) => props.theme.geneIcon('&.left', '0 -360px', '0 -430px')}
 
     &.right {
       right: -68px;
-      background-position: 0 -508px;
-
-      &:hover {
-        background-position: 0 -578px;
-      }
     }
+    ${(props) => props.theme.geneIcon('&.left', '0 -508px', '0 -578px')}
   }
 `;

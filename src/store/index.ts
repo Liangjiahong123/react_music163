@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import recommendReducer from './modules/discover/recommend';
+import playerSlice from './modules/player';
 
 const store = configureStore({
   reducer: {
-    recommend: recommendReducer
+    recommend: recommendReducer,
+    player: playerSlice
   }
 });
 

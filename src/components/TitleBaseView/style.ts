@@ -23,9 +23,7 @@ export const TitleBaseWrap = styled.div`
       padding-bottom: 4px;
       color: #666;
 
-      &:hover {
-        text-decoration: underline;
-      }
+      ${(props) => props.theme.hoverUdLine}
     }
 
     .icon {

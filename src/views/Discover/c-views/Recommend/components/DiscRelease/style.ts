@@ -19,21 +19,13 @@ export const AlbumRoller = styled.div`
 
     &.prev {
       left: 4px;
-      background-position: -260px -75px;
-
-      &:hover {
-        background-position: -280px -75px;
-      }
     }
+    ${(props) => props.theme.geneIcon('&.prev', '-260px -75px', '-280px -75px')}
 
     &.next {
       right: 4px;
-      background-position: -300px -75px;
-
-      &:hover {
-        background-position: -320px -75px;
-      }
     }
+    ${(props) => props.theme.geneIcon('&.next', '-300px -75px', '-320px -75px')}
   }
 `;
 

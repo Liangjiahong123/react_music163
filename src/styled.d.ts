@@ -14,6 +14,7 @@ declare module 'styled-components' {
     flexRow(jc: string, al: string): string;
     pos(type: string, direction: Direction): string;
     tEllipsis(line?: number): string;
+    geneIcon(selector: string, ps: string, hoverps: string): string;
     hoverUdLine: string;
   }
 }
