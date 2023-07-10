@@ -142,6 +142,9 @@ export const SongContent = styled.div`
     margin-left: 15px;
     color: #9b9b9b;
     ${(props) => props.theme.tEllipsis()}
+    .author {
+      ${(props) => props.theme.hoverUdLine}
+    }
   }
 `;
 

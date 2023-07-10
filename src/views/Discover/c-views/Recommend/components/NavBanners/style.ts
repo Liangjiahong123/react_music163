@@ -129,6 +129,6 @@ export const BannersControl = styled.div`
     &.right {
       right: -68px;
     }
-    ${(props) => props.theme.geneIcon('&.left', '0 -508px', '0 -578px')}
+    ${(props) => props.theme.geneIcon('&.right', '0 -508px', '0 -578px')}
   }
 `;

@@ -38,7 +38,6 @@ const MusicPlayMenu: FC<Iprops> = () => {
 
   /** 副作用操作 */
   useEffect(() => {
-    if (!currentSong.id) return;
     audioRef.current!.src = getSongPlayUrl(currentSong.id);
     // audioRef.current
     //   ?.play()
@@ -102,9 +101,8 @@ const MusicPlayMenu: FC<Iprops> = () => {
     setProgress(value);
   };
 
-  // 歌曲使用的头像
-  const songAvatar = currentSong.picUrl
-    ? formatImgSize(currentSong.picUrl, 34)
+  const songAvatar = currentSong.al?.picUrl
+    ? formatImgSize(currentSong.al.picUrl, 34)
     : `${require('@img/default_album.jpg')}`;
 
   return (
@@ -126,7 +124,11 @@ const MusicPlayMenu: FC<Iprops> = () => {
                 <SongContent>
                   <span className='name'>{currentSong.name}</span>
                   <div className='artists'>
-                    <Link to={`/artist?id=123`}>{currentSong.name}</Link>
+                    {currentSong.ar?.map((item: any) => (
+                      <Link to={`/artist?id=${item.id}`} key={item.id} className='author'>
+                        {item.name}
+                      </Link>
+                    ))}
                   </div>
                 </SongContent>
                 <Process>
