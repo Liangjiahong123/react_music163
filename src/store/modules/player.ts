@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { getCurrentSong, getSongLyric } from '@/services';
+import { parseLyric, ILyric } from '@/utils';
 
 interface IPlayState {
   currentSong: Record<string, any>;
-  currentLyric: string;
+  currentLyric: ILyric[];
 }
 
 export const fetchPlayerInfo = createAsyncThunk('fetchplayer', (id: number, { dispatch }) => {
@@ -12,13 +13,15 @@ export const fetchPlayerInfo = createAsyncThunk('fetchplayer', (id: number, { di
     dispatch(changeCurrentSongAction(res.songs[0]));
   });
   getSongLyric({ id }).then((res) => {
-    res.code === 200 && dispatch(changeCurrentLyricAction(res.lrc.lyric));
+    if (res.code !== 200 || !res.lrc?.lyric) return;
+    const lyriclist = parseLyric(res.lrc.lyric);
+    dispatch(changeCurrentLyricAction(lyriclist));
   });
 });
 
 const initialState: IPlayState = {
   currentSong: {},
-  currentLyric: ''
+  currentLyric: []
 };
 
 const playerSlice = createSlice({
@@ -28,7 +31,7 @@ const playerSlice = createSlice({
     changeCurrentSongAction(state, { payload }: PayloadAction<Record<string, any>>) {
       state.currentSong = payload;
     },
-    changeCurrentLyricAction(state, { payload }: PayloadAction<string>) {
+    changeCurrentLyricAction(state, { payload }: PayloadAction<ILyric[]>) {
       state.currentLyric = payload;
     }
   }
