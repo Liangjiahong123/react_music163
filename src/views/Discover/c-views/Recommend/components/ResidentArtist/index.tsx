@@ -2,7 +2,6 @@ import React, { memo } from 'react';
 import type { ReactNode, FC } from 'react';
 import { Link } from 'react-router-dom';
 import { ResidentArtistWrap, ArtistList, LinkWrap } from './style';
-import { useAppSelector, appShallowEqual } from '@/hooks';
 import { RESIDENT_ARTIST } from '@/assets/constants';
 import TitleBaseWrap from '@cpns/TitleBaseView';
 import ArtistItem from '../ArtistItem';
@@ -12,13 +11,6 @@ interface Iprops {
 }
 
 const ResidentArtist: FC<Iprops> = () => {
-  const { artistList } = useAppSelector(
-    (state) => ({
-      artistList: state.recommend.artistList
-    }),
-    appShallowEqual
-  );
-
   const rightSlot = (
     <Link to='/discover/artist/signed/' className='more'>
       查看全部 &gt;

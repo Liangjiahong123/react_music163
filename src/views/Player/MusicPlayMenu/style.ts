@@ -152,7 +152,7 @@ export const Process = styled.div`
   height: 9px;
   ${(props) => props.theme.bg('right 0', 'statbar.png')}
 
-  .cur {
+  .ant-slider {
     margin: 0;
     padding: 0;
     height: 9px;
