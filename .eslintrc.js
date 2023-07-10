@@ -30,6 +30,7 @@ module.exports = {
   rules: {
     '@typescript-eslint/no-var-requires': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
-    'react/display-name': 'off'
+    'react/display-name': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off'
   }
 };

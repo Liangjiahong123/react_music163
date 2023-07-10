@@ -91,8 +91,10 @@ export const MusicInfo = styled.div`
     background-color: red;
 
     img {
+      display: block;
       width: 34px;
       height: 34px;
+      object-fit: cover;
     }
 
     .mask {
@@ -104,73 +106,8 @@ export const MusicInfo = styled.div`
   }
 
   .player {
-    display: flex;
+    ${(props) => props.theme.flexRow('', 'flex-end')}
     ${(props) => props.theme.pos('relative', { t: '-4px' })}
-
-    .song {
-      ${(props) => props.theme.flexRow('', 'center')}
-      height: 28px;
-      overflow: hidden;
-      color: #e8e8e8;
-      text-shadow: 0 1px 0 #171717;
-      line-height: 28px;
-
-      .name {
-        max-width: 300px;
-        ${(props) => props.theme.tEllipsis()}
-        ${(props) => props.theme.hoverUdLine}
-      }
-
-      .artists {
-        max-width: 220px;
-        margin-left: 15px;
-        color: #9b9b9b;
-        ${(props) => props.theme.tEllipsis()}
-      }
-    }
-
-    .process {
-      position: relative;
-      width: 466px;
-      height: 9px;
-      ${(props) => props.theme.bg('0 9999px', 'statbar.png')}
-
-      &.show {
-        background-position: right 0;
-
-        .cur {
-          width: 0%;
-          background-position: left -66px;
-          ${(props) => props.theme.pos('absolute', { l: 0, t: 0 })}
-
-          .btn {
-            width: 22px;
-            height: 24px;
-            margin-left: -11px;
-            z-index: 999;
-            ${(props) => props.theme.pos('absolute', { r: '-13px', t: '-7px' })}
-            ${(props) => props.theme.bg('0 -250px', 'iconall.png')}
-
-            .loading {
-              display: none;
-              width: 12px;
-              height: 12px;
-              background-image: url(${require('@img/loading.gif')});
-              ${(props) => props.theme.pos('absolute', { l: '5px', t: '5px' })}
-            }
-
-            &:hover {
-              background-position: 0 -280px;
-            }
-          }
-        }
-
-        .buffer {
-          width: 10%;
-          background-position: right -30px;
-        }
-      }
-    }
 
     .time {
       margin-top: -4px;
@@ -183,6 +120,88 @@ export const MusicInfo = styled.div`
         text-align: left;
       }
     }
+  }
+`;
+
+export const SongContent = styled.div`
+  ${(props) => props.theme.flexRow('', 'center')}
+  height: 28px;
+  overflow: hidden;
+  color: #e8e8e8;
+  text-shadow: 0 1px 0 #171717;
+  line-height: 28px;
+
+  .name {
+    max-width: 300px;
+    ${(props) => props.theme.tEllipsis()}
+    ${(props) => props.theme.hoverUdLine}
+  }
+
+  .artists {
+    max-width: 220px;
+    margin-left: 15px;
+    color: #9b9b9b;
+    ${(props) => props.theme.tEllipsis()}
+  }
+`;
+
+export const Process = styled.div`
+  position: relative;
+  top: 2px;
+  width: 466px;
+  height: 9px;
+  ${(props) => props.theme.bg('right 0', 'statbar.png')}
+
+  .cur {
+    margin: 0;
+    padding: 0;
+    height: 9px;
+    width: 100%;
+    ${(props) => props.theme.pos('absolute', { l: 0, t: 0 })}
+
+    .ant-slider-rail,.ant-slider-track,.ant-slider-step {
+      height: 9px;
+    }
+    .ant-slider-track {
+      border-radius: 50px;
+      background-color: rgba(199, 12, 12, 1);
+    }
+
+    .ant-slider-handle {
+      width: 0;
+      height: 0;
+      inset-block-start: unset;
+      &::before {
+        display: none;
+        width: 12px;
+        height: 12px;
+        background-image: url(${require('@img/loading.gif')});
+        ${(props) => props.theme.pos('absolute', { l: '5px', t: '5px' })}
+      }
+
+      &::after {
+        content: '';
+        width: 22px;
+        height: 22px;
+        z-index: 999;
+        box-shadow: none;
+        cursor: default;
+        background-color: transparent;
+        transition: none;
+        ${(props) => props.theme.pos('absolute', { l: '-10px', t: '-7px' })}
+        ${(props) => props.theme.bg('0 -250px', 'iconall.png')}
+      }
+
+      &:hover::after {
+        background-position: 0 -280px;
+      }
+    }
+  }
+
+  .buffer {
+    width: 0%;
+    height: 9px;
+    ${(props) => props.theme.bg('right -30px', 'statbar.png')}
   }
 `;
 
