@@ -14,8 +14,9 @@ import {
 } from './style';
 import { appShallowEqual, useAppDispatch, useAppSelector } from '@/hooks';
 import { formatImgSize, getSongPlayUrl, formatTime } from '@/utils';
-import { changeLyricIndexAction } from '@/store/modules/player';
+import { changeLyricIndexAction, changePlayModeAction } from '@/store/modules/player';
 import Playlist from '../PlayerList';
+import classNames from 'classnames';
 
 interface Iprops {
   children?: ReactNode;
@@ -32,11 +33,12 @@ const MusicPlayMenu: FC<Iprops> = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   /** 获取state数据 */
-  const { currentSong, currentLyric, lyricIndex } = useAppSelector(
+  const { currentSong, currentLyric, lyricIndex, playMode } = useAppSelector(
     (state) => ({
       currentSong: state.player.currentSong,
       currentLyric: state.player.currentLyric,
-      lyricIndex: state.player.lyricIndex
+      lyricIndex: state.player.lyricIndex,
+      playMode: state.player.playMode
     }),
     appShallowEqual
   );
@@ -111,6 +113,12 @@ const MusicPlayMenu: FC<Iprops> = () => {
   };
   // 控制显示播放列表
   const handleTogglePlayList = () => setIsShowList(!isShowList);
+  // 控制播放模式切换
+  const handlePlayModeToggle = () => {
+    let currentPlayMode = playMode + 1;
+    currentPlayMode > 2 && (currentPlayMode = 0);
+    dispatch(changePlayModeAction(currentPlayMode));
+  };
 
   const songAvatar = currentSong.al?.picUrl
     ? formatImgSize(currentSong.al.picUrl, 34)
@@ -176,7 +184,15 @@ const MusicPlayMenu: FC<Iprops> = () => {
             </div>
             <div className='right'>
               <i className='ctrl volume' title='音量'></i>
-              <i className='ctrl loop' title='循环'></i>
+              <i
+                className={classNames('ctrl', {
+                  loop: playMode === 0,
+                  shuffle: playMode === 1,
+                  oneloop: playMode === 2
+                })}
+                title={['列表循环', '随机播放', '单曲循环'][playMode]}
+                onClick={handlePlayModeToggle}
+              ></i>
               <div className='add' title='播放列表' onClick={handleTogglePlayList}>
                 <div className='tip'>已添加到播放列表</div>
                 <i className='list'>0</i>

@@ -13,6 +13,7 @@ interface Iprops {
 
 const PlayList: FC<Iprops> = (props) => {
   const { lyric, lyricIndex, onClose } = props;
+  console.log(onClose);
 
   /** 组件内部数据 */
   const containerRef = useRef<HTMLDivElement>(null);
