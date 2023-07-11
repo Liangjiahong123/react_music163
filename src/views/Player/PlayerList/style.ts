@@ -98,15 +98,15 @@ export const ListBody = styled.div`
     overflow: hidden;
 
     .lyric-roller {
-      margin: 20px auto;
+      margin: 8px auto;
       width: 354px;
       color: #989898;
       text-align: center;
       transition: transform 0.7s linear;
 
       > p {
-        min-height: 32px;
-        line-height: 32px;
+        min-height: 37px;
+        line-height: 37px;
         font-size: 12px;
         color: #989898;
         transform: all 0.7s linear;
