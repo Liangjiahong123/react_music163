@@ -90,4 +90,32 @@ export const ListBody = styled.div`
   background-color: #121212;
   ${(props) => props.theme.bg('-1014px 0', 'playlist_bg.png', '100% 100%')}
   background-repeat: repeat-y;
+
+  .lyric-container {
+    margin: 0 auto;
+    width: 600px;
+    height: 100%;
+    overflow: hidden;
+
+    .lyric-roller {
+      margin: 20px auto;
+      width: 354px;
+      color: #989898;
+      text-align: center;
+      transition: transform 0.7s linear;
+
+      > p {
+        min-height: 32px;
+        line-height: 32px;
+        font-size: 12px;
+        color: #989898;
+        transform: all 0.7s linear;
+
+        &.active {
+          font-size: 14px;
+          color: #fff;
+        }
+      }
+    }
+  }
 `;

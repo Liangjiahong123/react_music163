@@ -32,6 +32,10 @@ const NavBanners: FC<Iprops> = () => {
   useEffect(() => {
     if (!banners.length) return;
     setBgImage(banners[currentIndex].imageUrl + '?imageView&blur=40x20');
+
+    return () => {
+      clearInterval(timerRef.current);
+    };
   }, [banners]);
 
   /** 事件处理 */

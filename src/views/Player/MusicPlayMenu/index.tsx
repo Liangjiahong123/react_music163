@@ -12,8 +12,9 @@ import {
   Process,
   Operator
 } from './style';
-import { appShallowEqual, useAppSelector } from '@/hooks';
+import { appShallowEqual, useAppDispatch, useAppSelector } from '@/hooks';
 import { formatImgSize, getSongPlayUrl, formatTime } from '@/utils';
+import { changeLyricIndexAction } from '@/store/modules/player';
 import Playlist from '../PlayerList';
 
 interface Iprops {
@@ -31,12 +32,17 @@ const MusicPlayMenu: FC<Iprops> = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
 
   /** 获取state数据 */
-  const { currentSong } = useAppSelector(
+  const { currentSong, currentLyric, lyricIndex } = useAppSelector(
     (state) => ({
-      currentSong: state.player.currentSong
+      currentSong: state.player.currentSong,
+      currentLyric: state.player.currentLyric,
+      lyricIndex: state.player.lyricIndex
     }),
     appShallowEqual
   );
+
+  /** dispatch */
+  const dispatch = useAppDispatch();
 
   /** 副作用操作 */
   useEffect(() => {
@@ -55,6 +61,15 @@ const MusicPlayMenu: FC<Iprops> = () => {
       setCurTime(currentTime);
       setProgress(curProgress);
     }
+    findLyricIndex(currentTime);
+  };
+
+  /** 设置当前时间所匹配歌词的索引 */
+  const findLyricIndex = (currentTime: number) => {
+    let index = currentLyric.findIndex((lyric) => lyric.time > currentTime);
+    if (lyricIndex === index - 1) return;
+    if (index === -1) index = currentLyric.length - 1;
+    dispatch(changeLyricIndexAction(index - 1));
   };
 
   /** 组件内部事件处理 */
@@ -178,7 +193,7 @@ const MusicPlayMenu: FC<Iprops> = () => {
         </UpdownWrap>
       </div>
       <audio ref={audioRef} onTimeUpdate={handleTimeUpdate} />
-      {isShowList && <Playlist />}
+      {isShowList && <Playlist lyric={currentLyric} lyricIndex={lyricIndex} />}
     </MusicPlayMenuWrap>
   );
 };
