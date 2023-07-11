@@ -69,6 +69,7 @@ const MusicPlayMenu: FC<Iprops> = () => {
   const closePlaylist = useCallback(() => setIsShowList(false), []);
 
   /** 音乐进度处理 */
+  // 监听当前播放进度
   const handleTimeUpdate = () => {
     // 获取当前播放时间(转换成秒)
     const currentTime = audioRef.current!.currentTime * 1000;
@@ -80,6 +81,15 @@ const MusicPlayMenu: FC<Iprops> = () => {
       setProgress(curProgress);
     }
     findLyricIndex(currentTime);
+  };
+  // 监听歌曲是否播放完成
+  const handleMusciEmptied = () => {
+    if (playMode === 2) {
+      audioRef.current!.currentTime = 0;
+      audioRef.current?.play();
+    } else {
+      handleToggleSong('next');
+    }
   };
 
   /** 设置当前时间所匹配歌词的索引 */
@@ -222,7 +232,7 @@ const MusicPlayMenu: FC<Iprops> = () => {
           <div className='right'></div>
         </UpdownWrap>
       </div>
-      <audio ref={audioRef} onTimeUpdate={handleTimeUpdate} />
+      <audio ref={audioRef} onTimeUpdate={handleTimeUpdate} onEmptied={handleMusciEmptied} />
       {isShowList && (
         <Playlist lyric={currentLyric} lyricIndex={lyricIndex} onClose={closePlaylist} />
       )}
