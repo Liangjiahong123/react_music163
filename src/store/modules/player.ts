@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { getCurrentSong, getSongLyric } from '@/services';
-import { parseLyric, ILyric } from '@/utils';
+import { parseLyric, ILyric, ramdonNumber } from '@/utils';
 import type { RootState } from '@/store';
 
 interface IPlayState {
@@ -12,10 +12,16 @@ interface IPlayState {
   playMode: number;
 }
 
-export const fetchPlayerInfo = createAsyncThunk<void, number, { state: RootState }>(
-  'fetchplayer',
+interface IThunkState {
+  state: RootState;
+}
+
+export type IPlayType = 'prev' | 'next';
+
+export const fetchCurSongInfoAction = createAsyncThunk<void, number, IThunkState>(
+  'fetchCurSong',
   (id, { dispatch, getState }) => {
-    const playSongList = getState().player.playSongList;
+    const { playSongList } = getState().player;
     const index = playSongList.findIndex((song) => song.id === id);
 
     // 判断在播放列表中是否存在歌曲，不存在则请求
@@ -37,13 +43,44 @@ export const fetchPlayerInfo = createAsyncThunk<void, number, { state: RootState
       dispatch(changePlaySongIndexAction(index));
     }
 
-    getSongLyric({ id }).then((res) => {
-      if (res.code !== 200 || !res.lrc?.lyric) return;
-      const lyriclist = parseLyric(res.lrc.lyric);
-      dispatch(changeCurrentLyricAction(lyriclist));
-    });
+    dispatch(fetchSongLyricAction(id));
   }
 );
+
+export const toggleMusicAction = createAsyncThunk<void, IPlayType, IThunkState>(
+  'toggleMusic',
+  (type, { dispatch, getState }) => {
+    const { playMode, playSongIndex, playSongList } = getState().player;
+    console.log(playMode);
+
+    // 根据不同的播放模式播放歌曲
+    let newIndex = playSongIndex;
+    // 随机播放
+    if (playMode === 1) {
+      // 随机抽取下一首，并保证不和当前一样
+      while (newIndex === playSongIndex) {
+        console.log(13);
+        newIndex = ramdonNumber(0, playSongList.length - 1);
+      }
+    } else {
+      // 列表循环和单曲循环
+      newIndex = type === 'prev' ? playSongIndex - 1 : playSongIndex + 1;
+      newIndex < 0 && (newIndex = playSongList.length - 1);
+      newIndex > playSongList.length - 1 && (newIndex = 0);
+    }
+    dispatch(changePlaySongIndexAction(newIndex));
+    dispatch(changeCurrentSongAction(playSongList[newIndex]));
+    dispatch(fetchSongLyricAction(playSongList[newIndex].id));
+  }
+);
+
+const fetchSongLyricAction = createAsyncThunk<void, number>('fetchLyric', (id, { dispatch }) => {
+  getSongLyric({ id }).then((res) => {
+    if (res.code !== 200 || !res.lrc?.lyric) return;
+    const lyriclist = parseLyric(res.lrc.lyric);
+    dispatch(changeCurrentLyricAction(lyriclist));
+  });
+});
 
 const initialState: IPlayState = {
   currentSong: {}, // 当前播放的歌曲

@@ -3,6 +3,8 @@ import type { ReactNode, FC } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { RankingItemWrap, TopCover, TopInfo, BottomItem } from './style';
+import { useAppDispatch } from '@/hooks';
+import { fetchCurSongInfoAction } from '@/store/modules/player';
 
 interface Iprops {
   children?: ReactNode;
@@ -11,6 +13,13 @@ interface Iprops {
 
 const RankingItem: FC<Iprops> = (props) => {
   const { rankingItem } = props;
+
+  const dispatch = useAppDispatch();
+
+  const handlePlayMusic = (id: number) => {
+    dispatch(fetchCurSongInfoAction(id));
+  };
+
   return (
     <RankingItemWrap>
       <div className='top'>
@@ -38,7 +47,7 @@ const RankingItem: FC<Iprops> = (props) => {
               {item.name}
             </Link>
             <div className='opr'>
-              <i className='icon play' title='播放'></i>
+              <i className='icon play' title='播放' onClick={() => handlePlayMusic(item.id)}></i>
               <i className='icon add' title='添加到收藏列表'></i>
               <i className='icon collect' title='收藏'></i>
             </div>

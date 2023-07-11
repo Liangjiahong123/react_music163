@@ -231,7 +231,10 @@ export const Process = styled.div`
   }
 `;
 
-export const Operator = styled.div`
+interface IOperProps {
+  playMode: number;
+}
+export const Operator = styled.div<IOperProps>`
   ${(props) => props.theme.flexRow('', 'flex-start')}
 
   .left {
@@ -267,9 +270,16 @@ export const Operator = styled.div`
       cursor: pointer;
       ${(props) => props.theme.bg('0 9999px', 'playbar.png')}
       ${(props) => props.theme.geneIcon('&.volume', '-2px -248px', '-31px -248px')}
-      ${(props) => props.theme.geneIcon('&.loop', '-3px -344px', '-33px -344px')}
-      ${(props) => props.theme.geneIcon('&.shuffle', '-66px -248px', '-93px -248px')}
-      ${(props) => props.theme.geneIcon('&.oneloop', '-66px -344px', '-93px -344px')}
+      ${(props) => {
+        switch (props.playMode) {
+          case 1:
+            return props.theme.geneIcon('&.playmode', '-66px -248px', '-93px -248px');
+          case 2:
+            return props.theme.geneIcon('&.playmode', '-66px -344px', '-93px -344px');
+          default:
+            return props.theme.geneIcon('&.playmode', '-3px -344px', '-33px -344px');
+        }
+      }}
     }
     .add {
       position: relative;

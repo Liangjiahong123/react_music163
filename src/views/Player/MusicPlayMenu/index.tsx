@@ -14,9 +14,13 @@ import {
 } from './style';
 import { appShallowEqual, useAppDispatch, useAppSelector } from '@/hooks';
 import { formatImgSize, getSongPlayUrl, formatTime } from '@/utils';
-import { changeLyricIndexAction, changePlayModeAction } from '@/store/modules/player';
+import {
+  changeLyricIndexAction,
+  changePlayModeAction,
+  toggleMusicAction,
+  IPlayType
+} from '@/store/modules/player';
 import Playlist from '../PlayerList';
-import classNames from 'classnames';
 
 interface Iprops {
   children?: ReactNode;
@@ -49,6 +53,16 @@ const MusicPlayMenu: FC<Iprops> = () => {
   /** 副作用操作 */
   useEffect(() => {
     audioRef.current!.src = getSongPlayUrl(currentSong.id);
+    audioRef.current!.currentTime = 0;
+    audioRef.current
+      ?.play()
+      .then(() => {
+        setIsPlaying(true);
+      })
+      .catch((err) => {
+        setIsPlaying(false);
+        console.log(err);
+      });
     setDuration(currentSong.dt);
   }, [currentSong]);
 
@@ -77,7 +91,7 @@ const MusicPlayMenu: FC<Iprops> = () => {
   };
 
   /** 组件内部事件处理 */
-  // 歌曲播放暂停
+  // 控制歌曲播放暂停
   const handleSongCtrlClick = () => {
     isPlaying
       ? audioRef.current?.pause()
@@ -119,8 +133,12 @@ const MusicPlayMenu: FC<Iprops> = () => {
     currentPlayMode > 2 && (currentPlayMode = 0);
     dispatch(changePlayModeAction(currentPlayMode));
   };
+  // 控制歌曲切换
+  const handleToggleSong = (type: IPlayType) => {
+    dispatch(toggleMusicAction(type));
+  };
 
-  const songAvatar = currentSong.al?.picUrl
+  const songAvatar = currentSong?.al?.picUrl
     ? formatImgSize(currentSong.al.picUrl, 34)
     : `${require('@img/default_album.jpg')}`;
 
@@ -129,9 +147,9 @@ const MusicPlayMenu: FC<Iprops> = () => {
       <div className='bar-container'>
         <PlayBar>
           <Control isPlaying={isPlaying}>
-            <i className='prev'></i>
+            <i className='prev' onClick={() => handleToggleSong('prev')}></i>
             <i className='play' onClick={handleSongCtrlClick}></i>
-            <i className='next'></i>
+            <i className='next' onClick={() => handleToggleSong('next')}></i>
           </Control>
           <MusicInfo>
             <div className='avatar'>
@@ -176,7 +194,7 @@ const MusicPlayMenu: FC<Iprops> = () => {
               </div>
             </div>
           </MusicInfo>
-          <Operator>
+          <Operator playMode={playMode}>
             <div className='left'>
               <i className='oper pip' title='画中画歌词'></i>
               <i className='oper collect' title='收藏'></i>
@@ -185,11 +203,7 @@ const MusicPlayMenu: FC<Iprops> = () => {
             <div className='right'>
               <i className='ctrl volume' title='音量'></i>
               <i
-                className={classNames('ctrl', {
-                  loop: playMode === 0,
-                  shuffle: playMode === 1,
-                  oneloop: playMode === 2
-                })}
+                className='ctrl playmode'
                 title={['列表循环', '随机播放', '单曲循环'][playMode]}
                 onClick={handlePlayModeToggle}
               ></i>
