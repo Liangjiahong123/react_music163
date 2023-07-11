@@ -1,27 +1,12 @@
 import React, { memo, useEffect, useRef, useState, useCallback } from 'react';
 import type { ReactNode, FC } from 'react';
-import { Link } from 'react-router-dom';
-import { Slider } from 'antd';
-import {
-  MusicPlayMenuWrap,
-  UpdownWrap,
-  PlayBar,
-  Control,
-  MusicInfo,
-  SongContent,
-  Process,
-  Operator
-} from './style';
+import { MusicPlayMenuWrap, UpdownWrap, PlayBar, Operator } from './style';
 import { appShallowEqual, useAppDispatch, useAppSelector } from '@/hooks';
-import { formatImgSize, getSongPlayUrl, formatTime, eventBus } from '@/utils';
-import {
-  changeLyricIndexAction,
-  changePlayModeAction,
-  toggleMusicAction,
-  IPlayType
-} from '@/store/modules/player';
-import Playlist from '../PlayerList';
-import { log } from 'console';
+import { getSongPlayUrl, eventBus } from '@/utils';
+import { changePlayModeAction, toggleMusicAction, IPlayType } from '@/store/modules/player';
+import Playlist from './c-cpns/PlayerList';
+import PlayerControl from './c-cpns/PlayerControl';
+import MusicInfo from './c-cpns/MusicInfo';
 
 interface Iprops {
   children?: ReactNode;
@@ -29,11 +14,6 @@ interface Iprops {
 
 const MusicPlayMenu: FC<Iprops> = () => {
   /** 组件内部数据 */
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [duration, setDuration] = useState(0);
-  const [curTime, setCurTime] = useState(0);
-  const [isDrag, setIsDrag] = useState(false);
   const [isShowList, setIsShowList] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -56,38 +36,18 @@ const MusicPlayMenu: FC<Iprops> = () => {
     eventBus.on('replay', handleMusicRePlay);
 
     audioRef.current!.src = getSongPlayUrl(currentSong.id);
-    audioRef.current
-      ?.play()
-      .then(() => {
-        setIsPlaying(true);
-      })
-      .catch((err) => {
-        setIsPlaying(false);
-        console.log(err);
-      });
-    setDuration(currentSong.dt);
-
+    audioRef.current?.play().catch((err) => {
+      console.log(err);
+    });
     return () => {
       eventBus.off('replay', handleMusicRePlay);
     };
   }, [currentSong]);
 
+  // 关闭播放列表
   const closePlaylist = useCallback(() => setIsShowList(false), []);
 
   /** 音乐进度处理 */
-  // 监听当前播放进度
-  const handleTimeUpdate = () => {
-    // 获取当前播放时间(转换成秒)
-    const currentTime = audioRef.current!.currentTime * 1000;
-    // 计算当前歌曲进度
-    const curProgress = (currentTime / duration) * 100;
-    // 判断是否有在拖拽进度条
-    if (!isDrag) {
-      setCurTime(currentTime);
-      setProgress(curProgress);
-    }
-    findLyricIndex(currentTime);
-  };
   // 监听歌曲是否播放完成
   const handleMusciEnded = () => {
     playMode === 2 ? handleMusicRePlay() : handleToggleSong('next');
@@ -98,49 +58,7 @@ const MusicPlayMenu: FC<Iprops> = () => {
     audioRef.current?.play();
   };
 
-  /** 设置当前时间所匹配歌词的索引 */
-  const findLyricIndex = (currentTime: number) => {
-    let index = currentLyric.findIndex((lyric) => lyric.time > currentTime);
-    if (lyricIndex === index - 1) return;
-    if (index === -1) index = currentLyric.length - 1;
-    dispatch(changeLyricIndexAction(index - 1));
-  };
-
   /** 组件内部事件处理 */
-  // 控制歌曲播放暂停
-  const handleSongCtrlClick = () => {
-    isPlaying
-      ? audioRef.current?.pause()
-      : audioRef.current?.play().catch((err) => {
-          setIsPlaying(false);
-          console.log('播放失败', err);
-        });
-    setIsPlaying(!isPlaying);
-  };
-  // 点击进度条更改进度
-  const handleProcessClick = (value: number) => {
-    // 计算当前点击位置的毫秒数
-    const currentTime = (value / 100) * duration;
-    // 设置audio的当前播放时间
-    audioRef.current!.currentTime = currentTime / 1000;
-    // 设置当前的播放时间
-    setCurTime(currentTime);
-    // 设置进度条
-    setProgress(value);
-    // 取消拖拽状态
-    setIsDrag(false);
-  };
-  // 拖拽进度条更改进度
-  const handleProcessDrag = (value: number) => {
-    // 计算拖拽到某位置的播放时间
-    const currentTime = (value / 100) * duration;
-    // 设置当前的播放时间
-    setCurTime(currentTime);
-    // 标记拖拽状态
-    setIsDrag(true);
-    // 设置当前进度
-    setProgress(value);
-  };
   // 控制显示播放列表
   const handleTogglePlayList = () => setIsShowList(!isShowList);
   // 控制播放模式切换
@@ -154,62 +72,13 @@ const MusicPlayMenu: FC<Iprops> = () => {
     dispatch(toggleMusicAction(type));
   };
 
-  const songAvatar = currentSong?.al?.picUrl
-    ? formatImgSize(currentSong.al.picUrl, 34)
-    : `${require('@img/default_album.jpg')}`;
-
   return (
     <MusicPlayMenuWrap>
       <div className='bar-container'>
         <PlayBar>
-          <Control isPlaying={isPlaying}>
-            <i className='prev' onClick={() => handleToggleSong('prev')}></i>
-            <i className='play' onClick={handleSongCtrlClick}></i>
-            <i className='next' onClick={() => handleToggleSong('next')}></i>
-          </Control>
-          <MusicInfo>
-            <div className='avatar'>
-              <img src={songAvatar} />
-              <div className='mask'></div>
-            </div>
-            <div className='player'>
-              <div className='info'>
-                <SongContent>
-                  <Link to={`/song?id=${currentSong.id}`} className='name'>
-                    {currentSong.name}
-                  </Link>
-                  {currentSong.mv && <i className='mv'></i>}
-                  <div className='artists'>
-                    {currentSong.ar?.map((item: any) => (
-                      <Link to={`/artist?id=${item.id}`} key={item.id} className='author'>
-                        {item.name}
-                      </Link>
-                    ))}
-                  </div>
-                  {currentSong.id && (
-                    <Link
-                      className='ranking-link'
-                      to={`/discover/toplist?id=3779629&_hash=songlist-${currentSong.id}`}
-                    />
-                  )}
-                </SongContent>
-                <Process>
-                  <Slider
-                    value={progress}
-                    step={0.5}
-                    tooltip={{ open: false }}
-                    onAfterChange={handleProcessClick}
-                    onChange={handleProcessDrag}
-                  />
-                  <div className='buffer'></div>
-                </Process>
-              </div>
-              <div className='time'>
-                <span className='cur-time'>{formatTime(curTime, 'mm:ss')}</span>
-                <span> / {formatTime(duration, 'mm:ss')}</span>
-              </div>
-            </div>
-          </MusicInfo>
+          <PlayerControl audio={audioRef.current as HTMLAudioElement} />
+          <MusicInfo audio={audioRef.current as HTMLAudioElement} />
+
           <Operator playMode={playMode}>
             <div className='left'>
               <i className='oper pip' title='画中画歌词'></i>
@@ -238,7 +107,7 @@ const MusicPlayMenu: FC<Iprops> = () => {
           <div className='right'></div>
         </UpdownWrap>
       </div>
-      <audio ref={audioRef} onTimeUpdate={handleTimeUpdate} onEnded={handleMusciEnded} />
+      <audio ref={audioRef} onEnded={handleMusciEnded} />
       {isShowList && (
         <Playlist lyric={currentLyric} lyricIndex={lyricIndex} onClose={closePlaylist} />
       )}
