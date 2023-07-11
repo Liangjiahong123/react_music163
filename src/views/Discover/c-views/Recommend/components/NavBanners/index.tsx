@@ -33,6 +33,12 @@ const NavBanners: FC<Iprops> = () => {
     if (!banners.length) return;
     setBgImage(banners[currentIndex].imageUrl + '?imageView&blur=40x20');
 
+    /** 轮播图自动切换 */
+    if (timerRef.current) clearInterval(timerRef.current);
+    timerRef.current = setInterval(() => {
+      handleChangeClick('next');
+    }, 5000);
+
     return () => {
       clearInterval(timerRef.current);
     };
@@ -59,16 +65,9 @@ const NavBanners: FC<Iprops> = () => {
     setDotIndex(indexRef.current);
   };
 
-  /** 轮播图自动切换 */
-  if (timerRef.current) clearInterval(timerRef.current);
-  timerRef.current = setInterval(() => {
-    handleChangeClick('next');
-  }, 5000);
-
   /* 主图切换 */
   let imageUrl = '';
   banners.length && (imageUrl = banners[currentIndex].imageUrl);
-
   /* 跳转id切换 */
   let targetId = '';
   banners.length && (targetId = banners[currentIndex].targetId);
@@ -92,7 +91,7 @@ const NavBanners: FC<Iprops> = () => {
             </SwitchTransition>
           </div>
           <div className='dots'>
-            {banners.map((item, i) => (
+            {banners?.map((item, i) => (
               <i
                 className={classNames('item', { active: dotIndex === i })}
                 key={item.imageUrl}

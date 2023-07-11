@@ -51,7 +51,6 @@ export const toggleMusicAction = createAsyncThunk<void, IPlayType, IThunkState>(
   'toggleMusic',
   (type, { dispatch, getState }) => {
     const { playMode, playSongIndex, playSongList } = getState().player;
-    console.log(playMode);
 
     // 根据不同的播放模式播放歌曲
     let newIndex = playSongIndex;
@@ -59,7 +58,6 @@ export const toggleMusicAction = createAsyncThunk<void, IPlayType, IThunkState>(
     if (playMode === 1) {
       // 随机抽取下一首，并保证不和当前一样
       while (newIndex === playSongIndex) {
-        console.log(13);
         newIndex = ramdonNumber(0, playSongList.length - 1);
       }
     } else {

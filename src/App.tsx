@@ -11,6 +11,7 @@ import { fetchCurSongInfoAction } from './store/modules/player';
 const App: FC = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
+    window.history.scrollRestoration = 'manual';
     dispatch(fetchCurSongInfoAction(2057534370));
   }, []);
   return (
