@@ -6,12 +6,12 @@ import HeaderView from '@cpns/HeaderView';
 import FooterView from '@cpns/FooterView';
 import MusicPlayMenu from '@/views/Player/MusicPlayMenu';
 import { useAppDispatch } from './hooks';
-import { fetchPlayerInfo } from './store/modules/player';
+import { fetchCurSongInfoAction } from './store/modules/player';
 
 const App: FC = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
-    dispatch(fetchPlayerInfo(2057534370));
+    dispatch(fetchCurSongInfoAction(2057534370));
   }, []);
   return (
     <div className='app-container'>
