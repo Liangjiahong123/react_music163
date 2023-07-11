@@ -5,6 +5,7 @@ import { parseLyric, ILyric } from '@/utils';
 interface IPlayState {
   currentSong: Record<string, any>;
   currentLyric: ILyric[];
+  lyricIndex: number;
 }
 
 export const fetchPlayerInfo = createAsyncThunk('fetchplayer', (id: number, { dispatch }) => {
@@ -21,7 +22,8 @@ export const fetchPlayerInfo = createAsyncThunk('fetchplayer', (id: number, { di
 
 const initialState: IPlayState = {
   currentSong: {},
-  currentLyric: []
+  currentLyric: [],
+  lyricIndex: -1
 };
 
 const playerSlice = createSlice({
@@ -33,9 +35,13 @@ const playerSlice = createSlice({
     },
     changeCurrentLyricAction(state, { payload }: PayloadAction<ILyric[]>) {
       state.currentLyric = payload;
+    },
+    changeLyricIndexAction(state, { payload }: PayloadAction<number>) {
+      state.lyricIndex = payload;
     }
   }
 });
 
-export const { changeCurrentSongAction, changeCurrentLyricAction } = playerSlice.actions;
+export const { changeCurrentSongAction, changeCurrentLyricAction, changeLyricIndexAction } =
+  playerSlice.actions;
 export default playerSlice.reducer;
