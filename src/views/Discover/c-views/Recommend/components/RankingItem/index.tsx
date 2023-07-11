@@ -3,7 +3,8 @@ import type { ReactNode, FC } from 'react';
 import { Link } from 'react-router-dom';
 import classNames from 'classnames';
 import { RankingItemWrap, TopCover, TopInfo, BottomItem } from './style';
-import { useAppDispatch } from '@/hooks';
+import { appShallowEqual, useAppDispatch, useAppSelector } from '@/hooks';
+import { eventBus } from '@/utils';
 import { fetchCurSongInfoAction } from '@/store/modules/player';
 
 interface Iprops {
@@ -14,9 +15,17 @@ interface Iprops {
 const RankingItem: FC<Iprops> = (props) => {
   const { rankingItem } = props;
 
+  const { currentSong } = useAppSelector(
+    (state) => ({
+      currentSong: state.player.currentSong
+    }),
+    appShallowEqual
+  );
+
   const dispatch = useAppDispatch();
 
   const handlePlayMusic = (id: number) => {
+    if (currentSong.id === id) return eventBus.emit('replay');
     dispatch(fetchCurSongInfoAction(id));
   };
 

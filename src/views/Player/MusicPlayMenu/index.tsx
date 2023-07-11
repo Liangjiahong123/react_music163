@@ -13,7 +13,7 @@ import {
   Operator
 } from './style';
 import { appShallowEqual, useAppDispatch, useAppSelector } from '@/hooks';
-import { formatImgSize, getSongPlayUrl, formatTime } from '@/utils';
+import { formatImgSize, getSongPlayUrl, formatTime, eventBus } from '@/utils';
 import {
   changeLyricIndexAction,
   changePlayModeAction,
@@ -21,6 +21,7 @@ import {
   IPlayType
 } from '@/store/modules/player';
 import Playlist from '../PlayerList';
+import { log } from 'console';
 
 interface Iprops {
   children?: ReactNode;
@@ -52,8 +53,9 @@ const MusicPlayMenu: FC<Iprops> = () => {
 
   /** 副作用操作 */
   useEffect(() => {
+    eventBus.on('replay', handleMusicRePlay);
+
     audioRef.current!.src = getSongPlayUrl(currentSong.id);
-    audioRef.current!.currentTime = 0;
     audioRef.current
       ?.play()
       .then(() => {
@@ -64,6 +66,10 @@ const MusicPlayMenu: FC<Iprops> = () => {
         console.log(err);
       });
     setDuration(currentSong.dt);
+
+    return () => {
+      eventBus.off('replay', handleMusicRePlay);
+    };
   }, [currentSong]);
 
   const closePlaylist = useCallback(() => setIsShowList(false), []);
@@ -84,12 +90,12 @@ const MusicPlayMenu: FC<Iprops> = () => {
   };
   // 监听歌曲是否播放完成
   const handleMusciEnded = () => {
-    if (playMode === 2) {
-      audioRef.current!.currentTime = 0;
-      audioRef.current?.play();
-    } else {
-      handleToggleSong('next');
-    }
+    playMode === 2 ? handleMusicRePlay() : handleToggleSong('next');
+  };
+  // 歌曲重播
+  const handleMusicRePlay = () => {
+    audioRef.current!.currentTime = 0;
+    audioRef.current?.play();
   };
 
   /** 设置当前时间所匹配歌词的索引 */
