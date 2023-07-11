@@ -83,7 +83,7 @@ const MusicPlayMenu: FC<Iprops> = () => {
     findLyricIndex(currentTime);
   };
   // 监听歌曲是否播放完成
-  const handleMusciEmptied = () => {
+  const handleMusciEnded = () => {
     if (playMode === 2) {
       audioRef.current!.currentTime = 0;
       audioRef.current?.play();
@@ -232,7 +232,7 @@ const MusicPlayMenu: FC<Iprops> = () => {
           <div className='right'></div>
         </UpdownWrap>
       </div>
-      <audio ref={audioRef} onTimeUpdate={handleTimeUpdate} onEmptied={handleMusciEmptied} />
+      <audio ref={audioRef} onTimeUpdate={handleTimeUpdate} onEnded={handleMusciEnded} />
       {isShowList && (
         <Playlist lyric={currentLyric} lyricIndex={lyricIndex} onClose={closePlaylist} />
       )}
