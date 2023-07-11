@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useRef, useState } from 'react';
+import React, { memo, useEffect, useRef, useState, useCallback } from 'react';
 import type { ReactNode, FC } from 'react';
 import { Link } from 'react-router-dom';
 import { Slider } from 'antd';
@@ -49,6 +49,8 @@ const MusicPlayMenu: FC<Iprops> = () => {
     audioRef.current!.src = getSongPlayUrl(currentSong.id);
     setDuration(currentSong.dt);
   }, [currentSong]);
+
+  const closePlaylist = useCallback(() => setIsShowList(false), []);
 
   /** 音乐进度处理 */
   const handleTimeUpdate = () => {
@@ -108,9 +110,7 @@ const MusicPlayMenu: FC<Iprops> = () => {
     setProgress(value);
   };
   // 控制显示播放列表
-  const handleShowPlayList = () => {
-    setIsShowList(!isShowList);
-  };
+  const handleTogglePlayList = () => setIsShowList(!isShowList);
 
   const songAvatar = currentSong.al?.picUrl
     ? formatImgSize(currentSong.al.picUrl, 34)
@@ -177,7 +177,7 @@ const MusicPlayMenu: FC<Iprops> = () => {
             <div className='right'>
               <i className='ctrl volume' title='音量'></i>
               <i className='ctrl loop' title='循环'></i>
-              <div className='add' title='播放列表' onClick={handleShowPlayList}>
+              <div className='add' title='播放列表' onClick={handleTogglePlayList}>
                 <div className='tip'>已添加到播放列表</div>
                 <i className='list'>0</i>
               </div>
@@ -193,7 +193,9 @@ const MusicPlayMenu: FC<Iprops> = () => {
         </UpdownWrap>
       </div>
       <audio ref={audioRef} onTimeUpdate={handleTimeUpdate} />
-      {isShowList && <Playlist lyric={currentLyric} lyricIndex={lyricIndex} />}
+      {isShowList && (
+        <Playlist lyric={currentLyric} lyricIndex={lyricIndex} onClose={closePlaylist} />
+      )}
     </MusicPlayMenuWrap>
   );
 };
