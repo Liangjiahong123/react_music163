@@ -5,7 +5,7 @@ import { Slider } from 'antd';
 import { MusicInfoWrap, SongContent, Process } from './style';
 import { appShallowEqual, useAppDispatch, useAppSelector } from '@/hooks';
 import { formatImgSize, formatTime } from '@/utils';
-import { changeLyricIndexAction } from '@/store/modules/player';
+import { changeLyricIndexAction, toggleMusicAction } from '@/store/modules/player';
 
 interface Iprops {
   audio: HTMLAudioElement;
@@ -13,12 +13,8 @@ interface Iprops {
 
 const MusicInfo: FC<Iprops> = (props) => {
   const { audio } = props;
-  /** 组件内部数据 */
-  const [progress, setProgress] = useState(0);
-  const [curTime, setCurTime] = useState(0);
-  const dragRef = useRef(false);
-
-  const { currentSong, currentLyric, lyricIndex } = useAppSelector(
+  /** state数据 */
+  const { currentSong, currentLyric, lyricIndex, playMode } = useAppSelector(
     (state) => ({
       currentSong: state.player.currentSong,
       currentLyric: state.player.currentLyric,
@@ -28,18 +24,28 @@ const MusicInfo: FC<Iprops> = (props) => {
     appShallowEqual
   );
 
+  /** 组件内部数据 */
+  const [progress, setProgress] = useState(0);
+  const [curTime, setCurTime] = useState(0);
+  const dragRef = useRef(false);
+  const lyricRef = useRef(lyricIndex);
+
   /** dispatch */
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    audio?.addEventListener('timeupdate', onAudioTimeUpdate);
-    return () => {
-      audio?.removeEventListener('timeupdate', onAudioTimeUpdate);
-    };
-  }, [currentSong]);
+    audio && (audio.ontimeupdate = onAudioTimeUpdate);
+    audio && (audio.onended = handleMusciEnded);
 
+    return () => {
+      audio && (audio.ontimeupdate = null);
+      audio && (audio.onended = null);
+    };
+  }, [currentLyric]);
+
+  // 实时更新歌曲时间和歌词
   const onAudioTimeUpdate = () => {
-    // 获取当前播放时间(转换成秒)
+    // 获取当前播放时间(转换成毫秒)
     const currentTime = audio.currentTime * 1000;
     // 计算当前歌曲进度
     const curProgress = (currentTime / currentSong.dt) * 100;
@@ -51,14 +57,24 @@ const MusicInfo: FC<Iprops> = (props) => {
     }
     changeLyricIndex(currentTime);
   };
-
-  const changeLyricIndex = (currentTime: number) => {
-    let index = currentLyric.findIndex((lyric) => lyric.time > currentTime);
-    if (lyricIndex === index - 1) return;
-    if (index === -1) index = currentLyric.length - 1;
-    dispatch(changeLyricIndexAction(index - 1));
+  // 监听歌曲是否播放完成
+  const handleMusciEnded = () => {
+    if (playMode === 2) {
+      audio.currentTime = 0;
+      audio.play();
+    } else {
+      dispatch(toggleMusicAction('next'));
+    }
   };
-
+  // 查找当前播放的歌词
+  const changeLyricIndex = (currentTime: number) => {
+    let newIndex = currentLyric?.findIndex((lyric) => lyric.time > currentTime);
+    if (lyricRef.current === newIndex - 1) return;
+    lyricRef.current = newIndex - 1;
+    if (newIndex === -1) newIndex = currentLyric.length - 1;
+    dispatch(changeLyricIndexAction(newIndex - 1));
+  };
+  // 歌曲进度条点击
   const handleProcessClick = (value: number) => {
     // 计算当前点击位置的毫秒数
     const currentTime = (value / 100) * currentSong.dt;
@@ -71,7 +87,7 @@ const MusicInfo: FC<Iprops> = (props) => {
     // 取消拖拽状态
     dragRef.current = false;
   };
-
+  // 歌曲进度条拖拽
   const handleProcessDrag = (value: number) => {
     // 计算拖拽到某位置的播放时间
     const currentTime = (value / 100) * currentSong.dt;

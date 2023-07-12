@@ -1,18 +1,24 @@
 import React, { memo, useEffect, useRef } from 'react';
 import type { ReactNode, FC } from 'react';
-import { PlayListWrap, ListHeader, ListBody } from './style';
-import { ILyric } from '@/utils';
 import classNames from 'classnames';
+import { PlayListWrap, ListHeader, ListBody } from './style';
+import { appShallowEqual, useAppSelector } from '@/hooks';
 
 interface Iprops {
   children?: ReactNode;
-  lyric: ILyric[];
-  lyricIndex: number;
   onClose?: () => void;
 }
 
 const PlayList: FC<Iprops> = (props) => {
-  const { lyric, lyricIndex, onClose } = props;
+  const { onClose } = props;
+
+  const { currentLyric, lyricIndex } = useAppSelector(
+    (state) => ({
+      currentLyric: state.player.currentLyric,
+      lyricIndex: state.player.lyricIndex
+    }),
+    appShallowEqual
+  );
 
   /** 组件内部数据 */
   const containerRef = useRef<HTMLDivElement>(null);
@@ -53,7 +59,7 @@ const PlayList: FC<Iprops> = (props) => {
       <ListBody>
         <div className='lyric-container' ref={containerRef}>
           <div className='lyric-roller' ref={rollerRef}>
-            {lyric.map((item, i) => (
+            {currentLyric?.map((item, i) => (
               <p key={item.time} className={classNames({ active: lyricIndex === i })}>
                 {item.content}
               </p>
